@@ -6,41 +6,72 @@ import 'package:geocoding/geocoding.dart';
 import './geo_info.dart';
 
 class GeoInfoListNotifier extends StateNotifier<List<GeoInfo>> {
-  GeoInfoListNotifier() : super([]);
+  GeoInfoListNotifier()
+      : super([
+          // GeoInfo(
+          //   marker: Marker(
+          //     point: LatLng(0.0, 0.0), // ????f?t?H???g??u
+          //     builder: (context) => const Icon(Icons.location_off),
+          //   ),
+          //   placemark: const Placemark(
+          //     name: 'Unknown',
+          //     street: 'None',
+          //     isoCountryCode: 'None',
+          //     country: 'Unknown',
+          //     postalCode: '00000',
+          //     administrativeArea: 'Unknown',
+          //     subAdministrativeArea: 'Unknown',
+          //     locality: 'Unknown',
+          //     subLocality: 'Unknown',
+          //     thoroughfare: 'Unknown',
+          //   ),
+          //   visitHistory: [],
+          //   absenceHistory: [],
+          //   visitMemoList: [],
+          //   absenceMemoList: [],
+          // )
+        ]);
 
-  // GeoInfo をリストに追加
+  List<GeoInfo> loadGeoInfoList() {
+    // ?w??????x??o?x??????? GeoInfo ??????
+    final List<GeoInfo> geoInfoList = [createDefaultGeoInfo()];
+    state = geoInfoList;
+    return geoInfoList;
+  }
+
+  // GeoInfo ?????X?g????
   void addGeoInfo(GeoInfo geoInfo) {
     state = [...state, geoInfo];
   }
 
-  // GeoInfo をリストから削除
+  // GeoInfo
   void removeGeoInfo(GeoInfo geoInfo) {
     state = state.where((item) => item != geoInfo).toList();
   }
 
-  // GeoInfo を更新
+  // GeoInfo
   void updateGeoInfo(GeoInfo oldGeoInfo, GeoInfo newGeoInfo) {
     state =
         state.map((item) => item == oldGeoInfo ? newGeoInfo : item).toList();
   }
 
-  // 特定の GeoInfo を取得（例：indexによるアクセス）
+  //
   GeoInfo getGeoInfoAt(int index) {
     return state[index];
   }
 
-  // GeoInfo のリストをクリア
+  // GeoInfo ????X?g???N???A
   void clearGeoInfoList() {
     state = [];
   }
 
-  // その他の操作（例：特定条件でフィルタ、ソートなど）
+  // ??????????i??F?????????t?B???^?A?\?[?g???j
 
-// 既定の GeoInfo オブジェクトの生成
+// ????? GeoInfo ?I?u?W?F?N?g?????
   GeoInfo createDefaultGeoInfo() {
     return GeoInfo(
       marker: Marker(
-        point: LatLng(0.0, 0.0), // 仮のデフォルト位置
+        point: LatLng(0.0, 0.0), // ????f?t?H???g??u
         builder: (context) => const Icon(Icons.location_off),
       ),
       placemark: const Placemark(
@@ -55,12 +86,15 @@ class GeoInfoListNotifier extends StateNotifier<List<GeoInfo>> {
         subLocality: 'Unknown',
         thoroughfare: 'Unknown',
       ),
-      visit_count: 0,
+      visitHistory: [],
+      absenceHistory: [],
+      visitMemoList: [],
+      absenceMemoList: [],
     );
   }
 
   GeoInfo? findGeoInfoByCoordinates(double latitude, double longitude) {
-    // 指定された緯度と経度に最も近い GeoInfo を検索
+    // ?w??????x??o?x??????? GeoInfo ??????
     return state.firstWhere(
         (geoInfo) =>
             geoInfo.marker.point.latitude == latitude &&

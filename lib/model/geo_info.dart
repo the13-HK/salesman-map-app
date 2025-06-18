@@ -15,7 +15,10 @@ class GeoInfo with _$GeoInfo {
   const factory GeoInfo({
     required Marker marker,
     required Placemark placemark,
-    required int visit_count,
+    required List<DateTime> visitHistory,
+    required List<DateTime> absenceHistory,
+    required List<String> visitMemoList,
+    required List<String> absenceMemoList,
   }) = _GeoInfo;
 
   factory GeoInfo.fromJson(Map<String, dynamic> json) =>
